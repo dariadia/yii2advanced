@@ -41,6 +41,13 @@ return [
             'showScriptName' => false,
             'rules' => [],
         ],
+        'formatter' => [
+            'dateFormat' => 'dd.MM.yyyy',
+            'datetimeFormat' => 'dd.MM.yyyy H:m:s',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => ' ',
+            'currencyCode' => 'RUB',
+        ],
     ],
     'params' => $params,
 ];
