@@ -17,8 +17,8 @@ class TaskSearch extends Task
     public function rules()
     {
         return [
-            [['id', 'started_at', 'deadline', 'author_id', 'created_at', 'updated_at'], 'integer'],
-            [['title'], 'safe'],
+            [['id', 'started_at', 'deadline', 'author_id', 'exec_id', 'created_at', 'updated_at'], 'integer'],
+            [['title', 'status'], 'safe'],
         ];
     }
 

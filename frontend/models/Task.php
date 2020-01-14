@@ -29,8 +29,8 @@ class Task extends ActiveRecord
     public function rules()
     {
         return [
-            [['author_id'], 'integer'],
-            [['author_id', 'started_at', 'deadline'], 'required'],
+            [['author_id', 'exec_id'], 'integer'],
+            [['author_id', 'started_at', 'deadline', 'status'], 'required'],
             [['title'], 'string', 'max' => 255],
             ['started_at', 'compare', 'compareAttribute' => 'deadline', 'operator' => '<=', 'enableClientValidation' => false],
         ];
@@ -43,6 +43,7 @@ class Task extends ActiveRecord
     {
         return [
             'author_id' => 'Автор',
+            'exec_id' => 'Исполнитель',
         ];
     }
 
@@ -52,6 +53,11 @@ class Task extends ActiveRecord
     public function getAuthor()
     {
         return $this->hasOne(User::class, ['id' => 'author_id']);
+    }
+
+    public function getExec()
+    {
+        return $this->hasOne(User::class, ['id' => 'exec_id']);
     }
 
     public static function findOne($condition)
