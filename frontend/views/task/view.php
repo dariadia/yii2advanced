@@ -2,9 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Task */
+/* @var $model common\models\Task */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Tasks', 'url' => ['index']];
@@ -30,12 +29,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'title',
-            'started_at',
-            'deadline',
             'author_id',
-            'created_at',
-            'updated_at',
+            'executor_id',
+            'title',
+            'description:ntext',
+            'priority.title',
+            [
+                'attribute' => 'status',
+                'value' => function (\common\models\Task $model) {
+                    return \common\models\Task::getStatusName()[$model->status];
+                }
+            ],
+            'created_at:datetime',
+            'updated_at:datetime',
+            'is_template:boolean'
         ],
     ]) ?>
 

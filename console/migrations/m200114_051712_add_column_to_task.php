@@ -12,9 +12,23 @@ class m200114_051712_add_column_to_task extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('task', 'status', $this->string(32)->notNull());
-        $this->addColumn('task', 'description', $this->string(50));
-        $this->addColumn('task', 'exec_id', $this->integer());
+        $this->addColumn('task', 'priority_id', $this->tinyInteger());
+        $this->addColumn('task', 'status', $this->tinyInteger());
+        $this->addColumn('task', 'description', $this->text());
+        $this->addColumn('task', 'executor_id', $this->integer());
+        $this->addColumn('task', 'is_template', $this->boolean());
+        $this->addColumn(
+            'task',
+            'template_id',
+            $this->integer()
+        );
+        $this->addForeignKey(
+            'fk-template-id_task',
+            'task',
+            'template_id',
+            'task',
+            'id'
+        );
     }
 
     /**
@@ -22,23 +36,14 @@ class m200114_051712_add_column_to_task extends Migration
      */
     public function safeDown()
     {
+        $this->dropColumn('task', 'priority_id');
         $this->dropColumn('task', 'status');
         $this->dropColumn('task', 'description');
-        $this->dropColumn('task', 'exec_id');
+        $this->dropColumn('task', 'executor_id');
+        $this->dropColumn('task', 'is_template');
+
+
+        $this->dropForeignKey('fk-template-id_task', 'task');
+        $this->dropColumn('task', 'is_template');
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m200114_051712_add_column_to_task cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }
