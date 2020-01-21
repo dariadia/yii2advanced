@@ -3,6 +3,9 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use frontend\models\ChatLog;
 
 /**
  * This is the model class for table "project".
@@ -40,6 +43,38 @@ class Project extends \yii\db\ActiveRecord
             [['title'], 'string', 'max' => 255],
         ];
     }
+
+    public function afterSave($insert, $changedAttribute)
+    {
+        if ($insert) {
+            ChatLog::create([
+                'username' => Yii::$app->user->identity->username,
+                'message' => 'has just created a project №' . $this->id,
+                'project_id' => $this->id,
+            ]);
+        } else { // update
+            ChatLog::create([
+                'username' => Yii::$app->user->identity->username,
+                'message' => 'has just updated a project №' . $this->id,
+                'project_id' => $this->id,
+            ]);
+        }
+    }
+
+    public function behaviors()
+    {
+        return [
+            'timestampBehavior' => [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                    'value' => time(),
+                ],
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */

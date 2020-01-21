@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use frontend\models\ChatLog;
 
 /**
  * This is the model class for table "task".
@@ -48,6 +49,24 @@ class Task extends \yii\db\ActiveRecord
         }
         return parent::beforeValidate();
     }
+
+    public function afterSave($insert, $changedAttribute)
+    {
+        if ($insert) {
+            ChatLog::create([
+                'username' => Yii::$app->user->identity->username,
+                'message' => 'has just created a task №' . $this->id,
+                'task_id' => $this->id,
+            ]);
+        } else { // update
+            ChatLog::create([
+                'username' => Yii::$app->user->identity->username,
+                'message' => 'has just updated a task №' . $this->id,
+                'task_id' => $this->id,
+            ]);
+        }
+    }
+
     public function behaviors()
     {
         return [TimestampBehavior::class => ['class' => TimestampBehavior::class]];
