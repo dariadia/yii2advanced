@@ -6,26 +6,25 @@ use Yii;
 use yii\console\Controller;
 use common\models\User;
 
-class RbacController extends \yii\console\Controller
+class RbacController extends Controller
 {
-    /**
-     * @throws \Exception
-     */
     public function actionInit()
     {
-        $role = \Yii::$app->authManager->createRole('admin');
-        $role->description = 'admin';
-        \Yii::$app->authManager->add($role);
+        $auth = \Yii::$app->authManager;
+        $adminRole = $auth->createRole('admin');
+        $auth->add($adminRole);
+        $developerRole = $auth->createRole('developer');
+        $auth->add($developerRole);
 
-        $role = \Yii::$app->authManager->createRole('team_lead');
-        $role->description = 'Team lead';
-        \Yii::$app->authManager->add($role);
+        $developers = User::find()->where(['!=', 'username', 'admin']);
+        foreach ($developers->each() as $developer) {
+            $auth->assign($developerRole, $developer->id);
+        }
 
-        $role = \Yii::$app->authManager->createRole('engineer');
-        $role->description = 'рядовой сотрудник отдела';
-        \Yii::$app->authManager->add($role);
+        $admins = User::find()->where(['=', 'username', 'admin']);
 
-        $permission = \Yii::$app->authManager->createPermission('getMyActivity');
-        \Yii::$app->authManager->add($permission);
+        foreach ($admins->each() as $admin) {
+            $auth->assign($adminRole, $admin->id);
+        }
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace frontend\models\search;
+namespace frontend\modules\account\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\Task;
+use common\models\Task;
 
 /**
- * TaskSearch represents the model behind the search form of `frontend\models\Task`.
+ * TaskSearch represents the model behind the search form of `common\models\Task`.
  */
 class TaskSearch extends Task
 {
@@ -17,8 +17,8 @@ class TaskSearch extends Task
     public function rules()
     {
         return [
-            [['id', 'started_at', 'deadline', 'author_id', 'exec_id', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'status'], 'safe'],
+            [['id', 'author_id', 'executor_id', 'priority_id', 'status', 'created_at', 'updated_at', 'is_template', 'template_id', 'project_id'], 'integer'],
+            [['title', 'description'], 'safe'],
         ];
     }
 
@@ -40,7 +40,11 @@ class TaskSearch extends Task
      */
     public function search($params)
     {
-        $query = Task::find();
+        $query = Task::find()->where([
+            'or',
+            ['author_id' => \Yii::$app->user->identity->id],
+            ['executor_id' => \Yii::$app->user->identity->id],
+        ]);
 
         // add conditions that should always apply here
 
@@ -59,14 +63,19 @@ class TaskSearch extends Task
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'started_at' => $this->started_at,
-            'deadline' => $this->deadline,
             'author_id' => $this->author_id,
+            'executor_id' => $this->executor_id,
+            'priority_id' => $this->priority_id,
+            'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'is_template' => $this->is_template,
+            'template_id' => $this->template_id,
+            'project_id' => $this->project_id,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title]);
+        $query->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

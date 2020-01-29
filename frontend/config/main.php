@@ -74,6 +74,9 @@ return [
         'api' => [
             'class' => \frontend\modules\api\ModuleApi::class
         ],
+        'account' => [
+            'class' => \frontend\modules\account\Module::class
+        ],
     ],
     'params' => $params,
 ];

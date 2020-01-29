@@ -24,13 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-    <p>
-        <?php if (!$isSubscribed) { ?>
-            <?= Html::a('Subscribe', ['subscribe', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?php } else { ?>
-            <?= Html::a('Unsubscribe', ['unsubscribe', 'id' => $model->id], ['class' => 'btn btn-danger']) ?>
-        <?php } ?>
-    </p>
 
     <?= DetailView::widget([
         'model' => $model,
