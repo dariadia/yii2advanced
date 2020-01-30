@@ -24,15 +24,19 @@ $config =  [
         'authManager' => [
             'class' => \yii\rbac\DbManager::class
         ],
+        'cache' => [
+            'class' => 'yii\caching\FileCache',
+        ],
         // 'user' => [
-        // 'class' => 'mdm\admin\models\User',
-        // 'identityClass' => 'mdm\admin\models\User',
-        // 'loginUrl' => ['admin/user/login'],
+        //     'class' => 'mdm\admin\models\User',
+        //     'identityClass' => 'mdm\admin\models\User',
+        //     'loginUrl' => ['admin/user/login'],
         // ]
     ],
 ];
 
-if (YII_ENV_DEV) {
+// тут тоже можно отключить 
+if (false) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [

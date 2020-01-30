@@ -10,11 +10,15 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log'],
+    // 'bootstrap' => ['log'], не самая лучшая идея, если пригодится информация об ошибках, но можно убрать сэкономить память
     'aliases' => [
         '@adminlte/widgets' => '@vendor/adminlte/yii2-widgets'
     ],
-    'modules' => [],
+    'modules' => [
+        'casher' => [
+            'class' => \backend\modules\casher\ModuleCasher::class
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
@@ -28,15 +32,15 @@ return [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
         ],
-        'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
-            'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ],
-            ],
-        ],
+        // 'log' => [
+        //     'traceLevel' => YII_DEBUG ? 3 : 0,
+        //     'targets' => [
+        //         [
+        //             'class' => 'yii\log\FileTarget',
+        //             'levels' => ['error', 'warning'],
+        //         ],
+        //     ],
+        // ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],

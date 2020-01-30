@@ -7,7 +7,6 @@ ALTER TABLE project
 DROP COLUMN parent_project_id
 
 
-
 DROP TABLE project
 
 
@@ -39,3 +38,9 @@ INSERT INTO project
     )
 VALUES
     ('very', 'f4fsdfsd', 2, 1, 124124124, 41412412);
+
+
+
+ALTER TABLE db_session 
+ADD COLUMN data BLOB AFTER expire; /* А так работает, если не через миграцию
+
