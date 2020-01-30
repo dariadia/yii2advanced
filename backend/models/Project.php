@@ -6,6 +6,8 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use frontend\models\ChatLog;
+use common\models\Priority;
+use common\models\Task;
 
 /**
  * This is the model class for table "project".
