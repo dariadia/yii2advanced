@@ -14,15 +14,17 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'parsers' => [
+                'application/json' => \yii\web\JsonParser::class,
+            ]
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => \common\models\User::class,
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
         'session' => [
-            // this is the name of the session cookie used for login on the frontend
-            'name' => 'advanced-frontend',
+            'class' => 'yii\web\DbSession',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -36,14 +38,44 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+        'formatter' => [
+            'dateFormat' => 'dd.MM.yyyy',
+            'datetimeFormat' => 'dd.MM.yyyy H:m:s',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => ' ',
+            'currencyCode' => 'RUB',
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                [
+                    'controller' => 'api/task',
+                    'class' => \yii\rest\UrlRule::class,
+                    'extraPatterns' => [
+                        //'METHOD action' => 'actionFunction',
+                        'POST random/<count>' => 'random',
+                        'GET data-provider/<limit>' => 'data-provider',
+                        'GET auth' => 'auth',
+                    ],
+                ],
+
+                [
+                    'controller' => 'api/user',
+                    'class' => \yii\rest\UrlRule::class,
+                    'extraPatterns' => [],
+                ],
             ],
+
         ],
-        */
+    ],
+    'modules' => [
+        'api' => [
+            'class' => \frontend\modules\api\ModuleApi::class
+        ],
+        'account' => [
+            'class' => \frontend\modules\account\Module::class
+        ],
     ],
     'params' => $params,
 ];
