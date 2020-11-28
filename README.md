@@ -11,8 +11,7 @@
 - Add tasks (set priority, deadline, etc.).
 - Add projects.
 - Add tasks to porjects.
-- *if admin or creator
-Delete/edit taks/projects.
+- (*if admin or creator) Delete/edit taks/projects.
 - View tasks per project.
 
 ***
