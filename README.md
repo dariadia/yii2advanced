@@ -7,11 +7,11 @@
 </p>
 
 ###### Via this app one can:
-- Register. *Mind that different roles exist, e.g. admin and user. They have the corresponding permissions.
+- Register. *Mind that different roles exist, e.g. admin and user. They have the corresponding permissions.*
 - Add tasks (set priority, deadline, etc.).
 - Add projects.
 - Add tasks to porjects.
-- (*if admin or creator) Delete/edit taks/projects.
+- (*if admin or creator*) Delete/edit taks/projects.
 - View tasks per project.
 
 ***
